@@ -1,0 +1,67 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Editar Produto{% endblock %}
+
+{% block content %}
+
+<h2>Editar produto</h2>
+
+<form method="POST" enctype="multipart/form-data" class="formulario">
+
+    <label for="nome">Nome do produto:</label>
+    <input
+        type="text"
+        id="nome"
+        name="nome"
+        value="{{ produto.nome }}"
+        minlength="3"
+        required
+    >
+
+    <label for="preco">Preço:</label>
+    <input
+        type="text"
+        id="preco"
+        name="preco"
+        value="{{ produto.preco }}"
+        required
+    >
+
+    <label for="categoria_id">Categoria:</label>
+
+    <select name="categoria_id" id="categoria_id" required>
+        {% for categoria in categorias %}
+        <option
+            value="{{ categoria.id }}"
+            {% if categoria.id == produto.categoria_id %}selected{% endif %}
+        >
+            {{ categoria.nome }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label>Imagem atual:</label>
+
+    <img
+        src="{{ url_for('static', filename='uploads/' + produto.imagem) }}"
+        alt="{{ produto.nome }}"
+        class="imagem-produto"
+    >
+
+    <label for="imagem">Trocar imagem:</label>
+
+    <input
+        type="file"
+        name="imagem"
+        id="imagem"
+        accept=".png,.jpg,.jpeg,.gif"
+    >
+
+    <button type="submit">Salvar alterações</button>
+
+    <a href="{{ url_for('index') }}">Cancelar</a>
+
+</form>
+
+{% endblock %}

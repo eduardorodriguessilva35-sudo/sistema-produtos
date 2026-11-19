@@ -1,0 +1,59 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Cadastrar Produto{% endblock %}
+
+{% block content %}
+
+<h2>Cadastrar novo produto</h2>
+
+<form method="POST" enctype="multipart/form-data" class="formulario">
+
+    <label for="nome">Nome do produto:</label>
+    <input
+        type="text"
+        id="nome"
+        name="nome"
+        minlength="3"
+        required
+    >
+
+    <label for="preco">Preço:</label>
+    <input
+        type="text"
+        id="preco"
+        name="preco"
+        placeholder="Exemplo: 49.90"
+        required
+    >
+
+    <label for="categoria_id">Categoria:</label>
+    <select
+        name="categoria_id"
+        id="categoria_id"
+        required
+    >
+        <option value="">Selecione uma categoria</option>
+
+        {% for categoria in categorias %}
+        <option value="{{ categoria.id }}">
+            {{ categoria.nome }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="imagem">Foto do produto:</label>
+    <input
+        type="file"
+        name="imagem"
+        id="imagem"
+        accept=".png,.jpg,.jpeg,.gif"
+    >
+
+    <button type="submit">Cadastrar produto</button>
+
+    <a href="{{ url_for('index') }}">Voltar</a>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Produtos cadastrados{% endblock %}
+
+{% block content %}
+
+<h2>Produtos cadastrados</h2>
+
+<form action="{{ url_for('index') }}" method="GET" class="busca">
+    <input
+        type="text"
+        name="busca"
+        placeholder="Pesquisar produto pelo nome..."
+        value="{{ busca }}"
+    >
+
+    <button type="submit">Buscar</button>
+    <a href="{{ url_for('index') }}">Limpar busca</a>
+</form>
+
+<a class="botao" href="{{ url_for('cadastrar') }}">
+    + Novo produto
+</a>
+
+<div class="tabela-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>
+                    <img
+                        src="{{ url_for('static', filename='uploads/' + produto.imagem) }}"
+                        alt="{{ produto.nome }}"
+                        class="imagem-produto"
+                    >
+                </td>
+
+                <td>{{ produto.nome }}</td>
+
+                <td>R$ {{ "%.2f"|format(produto.preco) }}</td>
+
+                <td>{{ produto.categoria.nome }}</td>
+
+                <td>
+                    <a
+                        class="editar"
+                        href="{{ url_for('editar', id=produto.id) }}"
+                    >
+                        Editar
+                    </a>
+
+                    <form
+                        action="{{ url_for('excluir', id=produto.id) }}"
+                        method="POST"
+                        onsubmit="return confirm('Deseja realmente excluir este produto?')"
+                        class="form-excluir"
+                    >
+                        <button type="submit" class="excluir">
+                            Excluir
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">
+                    Nenhum produto encontrado.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
